@@ -85,14 +85,12 @@ class LogoGridAdapter(
         fun bind(logo: LogoResource, selectedId: String?) {
             val context = itemView.context
 
-            
             logoName.text = when {
                 logo.nameResId != 0 -> context.getString(logo.nameResId)
                 !logo.customName.isNullOrBlank() -> logo.customName
                 else -> ""
             }
 
-            
             deleteButton.visibility = if (logo.isCustom) View.VISIBLE else View.GONE
             deleteButton.setOnClickListener {
                 onDeleteCustomLogo(logo)
@@ -129,6 +127,7 @@ class LogoGridAdapter(
             selectionOverlay.visibility = if (isSelected) View.VISIBLE else View.GONE
 
             itemView.setOnClickListener {
+                this@LogoGridAdapter.setSelectedLogo(logo)
                 onLogoSelected(logo)
             }
         }

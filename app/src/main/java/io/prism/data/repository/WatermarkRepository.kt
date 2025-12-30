@@ -1,9 +1,16 @@
 package io.prism.data.repository
 
 import android.content.Context
+import android.net.Uri
 import io.prism.data.local.CustomLogoStorage
 import io.prism.data.local.CustomTemplateStorage
-import io.prism.data.model.*
+import io.prism.data.model.CustomLogo
+import io.prism.data.model.LogoResource
+import io.prism.data.model.WatermarkConfig
+import io.prism.data.model.WatermarkPosition
+import io.prism.data.model.WatermarkStyle
+import io.prism.data.model.WatermarkTheme
+import io.prism.data.model.FontResource
 
 class WatermarkRepository(context: Context) {
 
@@ -18,7 +25,6 @@ class WatermarkRepository(context: Context) {
             exifTextFont = ResourceRegistry.defaultFont,
             position = WatermarkPosition.BOTTOM,
             logo = ResourceRegistry.defaultLogo,
-            theme = WatermarkTheme.LIGHT,
             style = ResourceRegistry.defaultStyle,
             scalePercent = 10f
         )
@@ -40,10 +46,9 @@ class WatermarkRepository(context: Context) {
         return ResourceRegistry.styles + customStyles
     }
 
-    // Custom logos
     suspend fun addCustomLogo(
         context: Context,
-        uri: android.net.Uri,
+        uri: Uri,
         name: String,
         isMonochrome: Boolean
     ): LogoResource {
@@ -59,15 +64,13 @@ class WatermarkRepository(context: Context) {
         customLogoStorage.updateCustomLogo(logo)
     }
 
-    // Custom templates
     suspend fun addCustomTemplate(
         name: String,
         description: String,
-        templateJson: String,
-        orientation: WatermarkOrientation
+        templateJson: String
     ): WatermarkStyle {
         val template = customTemplateStorage.saveCustomTemplate(
-            name, description, templateJson, orientation
+            name, description, templateJson
         )
         return template.toWatermarkStyle()
     }

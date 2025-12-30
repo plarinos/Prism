@@ -19,17 +19,18 @@ import androidx.core.view.children
 import io.prism.R
 import io.prism.data.model.ExifData
 import io.prism.data.model.WatermarkConfig
-import io.prism.data.model.WatermarkPosition
+import io.prism.data.model.WatermarkTheme
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import org.json.JSONObject
 import java.io.File
 
 object WatermarkRenderer {
 
-    
     private const val BASE_LOGO_SIZE_DP = 48f
     private const val BASE_TEXT_SIZE_SP = 18f
     private const val BASE_EXIF_TEXT_SIZE_SP = 12f
+    private const val BASE_DEVICE_TEXT_SIZE_SP = 14f
     private const val BASE_PADDING_DP = 24f
     private const val BASE_MARGIN_DP = 16f
     private const val BASE_DIVIDER_WIDTH_DP = 2f
@@ -40,32 +41,36 @@ object WatermarkRenderer {
         config: WatermarkConfig,
         exifData: ExifData,
         imageWidth: Int,
-        imageHeight: Int
+        imageHeight: Int,
+        theme: WatermarkTheme
     ): Bitmap = withContext(Dispatchers.Main) {
+        val style = config.style
 
-        
-        val isHorizontal = config.position.isHorizontal()
-
-        val layoutResId = if (isHorizontal) {
-            config.style.horizontalLayoutResId
-        } else {
-            config.style.verticalLayoutResId
-        }
-
-        
-        if (layoutResId == 0) {
-            
-            val fallbackLayoutResId = if (isHorizontal) {
-                R.layout.watermark_horizontal_standard
-            } else {
-                R.layout.watermark_vertical_standard
+        val layoutResId = when {
+            style.isCustom && !style.customTemplateJson.isNullOrBlank() -> {
+                getLayoutFromCustomTemplate(style.customTemplateJson)
             }
-            return@withContext renderWithLayout(
-                context, fallbackLayoutResId, config, exifData, imageWidth, imageHeight, isHorizontal
-            )
+            style.layoutResId != 0 -> style.layoutResId
+            else -> R.layout.watermark_standard
         }
 
-        renderWithLayout(context, layoutResId, config, exifData, imageWidth, imageHeight, isHorizontal)
+        renderWithLayout(context, layoutResId, config, exifData, imageWidth, imageHeight, theme)
+    }
+
+    private fun getLayoutFromCustomTemplate(templateJson: String): Int {
+        return try {
+            val json = JSONObject(templateJson)
+            val layoutName = json.optString("layout", "standard")
+            when (layoutName.lowercase()) {
+                "minimal" -> R.layout.watermark_minimal
+                "classic" -> R.layout.watermark_classic
+                "standard" -> R.layout.watermark_standard
+                else -> R.layout.watermark_standard
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            R.layout.watermark_standard
+        }
     }
 
     private suspend fun renderWithLayout(
@@ -75,45 +80,28 @@ object WatermarkRenderer {
         exifData: ExifData,
         imageWidth: Int,
         imageHeight: Int,
-        isHorizontal: Boolean
+        theme: WatermarkTheme
     ): Bitmap = withContext(Dispatchers.Main) {
         val inflater = LayoutInflater.from(context)
         val watermarkView = inflater.inflate(layoutResId, null) as ViewGroup
 
-        
-        val scaleFactor = calculateScaleFactor(
-            context, imageWidth, imageHeight, config.scalePercent, isHorizontal
-        )
+        val scaleFactor = calculateScaleFactor(context, imageWidth, imageHeight, config.scalePercent)
 
-        
-        configureView(context, watermarkView, config, exifData, scaleFactor)
-
-        
-        measureAndLayoutView(watermarkView, isHorizontal, imageWidth, imageHeight)
-
+        configureView(context, watermarkView, config, exifData, scaleFactor, theme)
+        measureAndLayoutView(watermarkView, imageWidth)
         renderViewToBitmap(watermarkView)
     }
 
-    
     private fun calculateScaleFactor(
         context: Context,
         imageWidth: Int,
         imageHeight: Int,
-        scalePercent: Float,
-        isHorizontal: Boolean
+        scalePercent: Float
     ): Float {
         val density = context.resources.displayMetrics.density
-
-        
-        val referenceSize = if (isHorizontal) imageHeight else imageWidth
-
-        
+        val referenceSize = imageHeight
         val targetSize = referenceSize * scalePercent / 100f
-
-        
         val baseSize = 100f * density
-
-        
         return (targetSize / baseSize).coerceIn(0.5f, 10f)
     }
 
@@ -122,28 +110,63 @@ object WatermarkRenderer {
         view: ViewGroup,
         config: WatermarkConfig,
         exifData: ExifData,
-        scaleFactor: Float
+        scaleFactor: Float,
+        theme: WatermarkTheme
     ) {
         val density = context.resources.displayMetrics.density
+        val colorLocks = config.style.colorLocks
+        val useCustom = config.colorSettings.useCustomColors
 
-        
+        val bgColor = when {
+            colorLocks.backgroundColorLocked && colorLocks.forcedBackgroundColor != null -> {
+                colorLocks.forcedBackgroundColor
+            }
+            useCustom && config.colorSettings.backgroundColor != null -> {
+                config.colorSettings.backgroundColor
+            }
+            else -> {
+                ContextCompat.getColor(context, theme.backgroundColor)
+            }
+        }
+
+        val textColor = when {
+            colorLocks.mainTextColorLocked && colorLocks.forcedMainTextColor != null -> {
+                colorLocks.forcedMainTextColor
+            }
+            useCustom && config.colorSettings.mainTextColor != null -> {
+                config.colorSettings.mainTextColor
+            }
+            else -> {
+                ContextCompat.getColor(context, theme.textColor)
+            }
+        }
+
+        val exifTextColor = when {
+            colorLocks.exifTextColorLocked && colorLocks.forcedExifTextColor != null -> {
+                colorLocks.forcedExifTextColor
+            }
+            useCustom && config.colorSettings.exifTextColor != null -> {
+                config.colorSettings.exifTextColor
+            }
+            else -> {
+                ContextCompat.getColor(context, theme.textColor)
+            }
+        }
+
         view.findViewById<View>(R.id.watermarkBG)?.apply {
-            setBackgroundColor(ContextCompat.getColor(context, config.theme.backgroundColor))
+            setBackgroundColor(bgColor)
             val scaledPadding = (BASE_PADDING_DP * density * scaleFactor).toInt()
             setPadding(scaledPadding, scaledPadding, scaledPadding, scaledPadding)
         }
 
-        
         view.findViewById<ImageView>(R.id.watermarkLogo)?.apply {
             val logo = config.logo
 
             if (logo == null || logo.isNoLogo) {
-                
                 visibility = View.GONE
             } else {
                 visibility = View.VISIBLE
 
-                
                 when {
                     logo.isCustom && !logo.customLogoPath.isNullOrEmpty() -> {
                         val file = File(logo.customLogoPath)
@@ -160,15 +183,12 @@ object WatermarkRenderer {
                     }
                 }
 
-                
                 if (visibility == View.VISIBLE && logo.isMonochrome) {
-                    val textColor = ContextCompat.getColor(context, config.theme.textColor)
                     setColorFilter(textColor, PorterDuff.Mode.SRC_IN)
                 } else {
                     colorFilter = null
                 }
 
-                
                 if (visibility == View.VISIBLE) {
                     val scaledLogoSize = (BASE_LOGO_SIZE_DP * density * scaleFactor).toInt()
                     layoutParams = layoutParams?.apply {
@@ -184,12 +204,13 @@ object WatermarkRenderer {
             }
         }
 
-        
         view.findViewWithTag<View>("divider")?.apply {
             val hasLogo = config.logo != null && !config.logo.isNoLogo
             visibility = if (hasLogo) View.VISIBLE else View.GONE
 
             if (visibility == View.VISIBLE) {
+                setBackgroundColor(textColor)
+                alpha = 0.3f
                 val scaledWidth = (BASE_DIVIDER_WIDTH_DP * density * scaleFactor).toInt()
                 val scaledHeight = (BASE_DIVIDER_HEIGHT_DP * density * scaleFactor).toInt()
                 layoutParams = layoutParams?.apply {
@@ -204,37 +225,61 @@ object WatermarkRenderer {
             }
         }
 
-        
         view.findViewById<TextView>(R.id.watermarkText)?.apply {
-            text = config.mainText.ifBlank { context.getString(R.string.default_watermark_text) }
-            setTextColor(ContextCompat.getColor(context, config.theme.textColor))
+            if (config.mainText.isBlank()) {
+                visibility = View.GONE
+            } else {
+                visibility = View.VISIBLE
+                text = config.mainText
+                setTextColor(textColor)
 
-            val scaledTextSize = BASE_TEXT_SIZE_SP * scaleFactor
-            setTextSize(TypedValue.COMPLEX_UNIT_SP, scaledTextSize)
+                val scaledTextSize = BASE_TEXT_SIZE_SP * scaleFactor
+                setTextSize(TypedValue.COMPLEX_UNIT_SP, scaledTextSize)
 
-            typeface = if (config.mainTextFont.fontResId != 0) {
-                try {
-                    ResourcesCompat.getFont(context, config.mainTextFont.fontResId)
-                } catch (e: Exception) {
+                typeface = if (config.mainTextFont.fontResId != 0) {
+                    try {
+                        ResourcesCompat.getFont(context, config.mainTextFont.fontResId)
+                    } catch (e: Exception) {
+                        Typeface.DEFAULT_BOLD
+                    }
+                } else {
                     Typeface.DEFAULT_BOLD
                 }
-            } else {
-                Typeface.DEFAULT_BOLD
-            }
-
-            (layoutParams as? ViewGroup.MarginLayoutParams)?.apply {
-                val scaledMargin = (4 * density * scaleFactor).toInt()
-                topMargin = scaledMargin
-                bottomMargin = scaledMargin
             }
         }
 
-        
+        view.findViewById<TextView>(R.id.watermarkDeviceText)?.apply {
+            val deviceName = if (config.useExifData) {
+                exifData.formatDeviceSeparate(config.exifSettings)
+            } else {
+                ""
+            }
+
+            if (deviceName.isNotBlank()) {
+                text = deviceName
+                visibility = View.VISIBLE
+                setTextColor(textColor)
+
+                val scaledTextSize = BASE_DEVICE_TEXT_SIZE_SP * scaleFactor
+                setTextSize(TypedValue.COMPLEX_UNIT_SP, scaledTextSize)
+
+                typeface = if (config.exifTextFont.fontResId != 0) {
+                    try {
+                        ResourcesCompat.getFont(context, config.exifTextFont.fontResId)
+                    } catch (e: Exception) {
+                        Typeface.DEFAULT
+                    }
+                } else {
+                    Typeface.DEFAULT
+                }
+            } else {
+                visibility = View.GONE
+            }
+        }
+
         view.findViewById<TextView>(R.id.watermarkEXIFDataText)?.apply {
             val exifText = if (config.useExifData) {
-                exifData.formatForWatermark().ifBlank {
-                    "" 
-                }
+                exifData.formatExifOnly(config.exifSettings).ifBlank { "" }
             } else {
                 ""
             }
@@ -242,7 +287,7 @@ object WatermarkRenderer {
             if (exifText.isNotBlank()) {
                 text = exifText
                 visibility = View.VISIBLE
-                setTextColor(ContextCompat.getColor(context, config.theme.textColor))
+                setTextColor(exifTextColor)
                 alpha = 0.7f
 
                 val scaledTextSize = BASE_EXIF_TEXT_SIZE_SP * scaleFactor
@@ -257,21 +302,14 @@ object WatermarkRenderer {
                 } else {
                     Typeface.DEFAULT
                 }
-
-                (layoutParams as? ViewGroup.MarginLayoutParams)?.apply {
-                    val scaledMargin = (4 * density * scaleFactor).toInt()
-                    topMargin = scaledMargin
-                }
             } else {
                 visibility = View.GONE
             }
         }
 
-        
         scaleViewHierarchy(view, scaleFactor, density)
     }
 
-    
     private fun scaleViewHierarchy(view: View, scaleFactor: Float, density: Float) {
         if (view is ViewGroup) {
             for (child in view.children) {
@@ -279,28 +317,28 @@ object WatermarkRenderer {
             }
         }
 
-        
         when (view.id) {
-            R.id.watermarkBG, R.id.watermarkLogo, R.id.watermarkText, R.id.watermarkEXIFDataText -> return
+            R.id.watermarkBG,
+            R.id.watermarkLogo,
+            R.id.watermarkText,
+            R.id.watermarkEXIFDataText,
+            R.id.watermarkDeviceText -> return
         }
 
-        
-        if (view.tag == "divider") return
+        if (view.tag == "divider" || view.tag == "divider_horizontal") return
 
-        
         val currentPadding = view.paddingLeft + view.paddingTop + view.paddingRight + view.paddingBottom
         if (currentPadding > 0) {
-            val scaledPaddingLeft = (view.paddingLeft * scaleFactor).toInt()
-            val scaledPaddingTop = (view.paddingTop * scaleFactor).toInt()
-            val scaledPaddingRight = (view.paddingRight * scaleFactor).toInt()
-            val scaledPaddingBottom = (view.paddingBottom * scaleFactor).toInt()
-            view.setPadding(scaledPaddingLeft, scaledPaddingTop, scaledPaddingRight, scaledPaddingBottom)
+            view.setPadding(
+                (view.paddingLeft * scaleFactor).toInt(),
+                (view.paddingTop * scaleFactor).toInt(),
+                (view.paddingRight * scaleFactor).toInt(),
+                (view.paddingBottom * scaleFactor).toInt()
+            )
         }
 
-        
         (view.layoutParams as? ViewGroup.MarginLayoutParams)?.apply {
-            val hasMargins = leftMargin + topMargin + rightMargin + bottomMargin > 0
-            if (hasMargins) {
+            if (leftMargin + topMargin + rightMargin + bottomMargin > 0) {
                 leftMargin = (leftMargin * scaleFactor).toInt()
                 topMargin = (topMargin * scaleFactor).toInt()
                 rightMargin = (rightMargin * scaleFactor).toInt()
@@ -309,36 +347,20 @@ object WatermarkRenderer {
         }
     }
 
-    private fun measureAndLayoutView(
-        view: View,
-        isHorizontal: Boolean,
-        imageWidth: Int,
-        imageHeight: Int
-    ) {
-        val widthSpec: Int
-        val heightSpec: Int
-
-        if (isHorizontal) {
-            
-            widthSpec = View.MeasureSpec.makeMeasureSpec(imageWidth, View.MeasureSpec.EXACTLY)
-            heightSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
-        } else {
-            
-            widthSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
-            heightSpec = View.MeasureSpec.makeMeasureSpec(imageHeight, View.MeasureSpec.EXACTLY)
-        }
-
+    private fun measureAndLayoutView(view: View, imageWidth: Int) {
+        val widthSpec = View.MeasureSpec.makeMeasureSpec(imageWidth, View.MeasureSpec.EXACTLY)
+        val heightSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
         view.measure(widthSpec, heightSpec)
         view.layout(0, 0, view.measuredWidth, view.measuredHeight)
     }
 
     private suspend fun renderViewToBitmap(view: View): Bitmap = withContext(Dispatchers.Default) {
-        val width = view.measuredWidth.coerceAtLeast(1)
-        val height = view.measuredHeight.coerceAtLeast(1)
-
-        val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
-        val canvas = Canvas(bitmap)
-        view.draw(canvas)
+        val bitmap = Bitmap.createBitmap(
+            view.measuredWidth.coerceAtLeast(1),
+            view.measuredHeight.coerceAtLeast(1),
+            Bitmap.Config.ARGB_8888
+        )
+        Canvas(bitmap).also { view.draw(it) }
         bitmap
     }
 }

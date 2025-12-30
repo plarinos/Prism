@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PRISM - Developer Guide</title>
+    <style>
+        :root {
+            --bg: #ffffff;
+            --text: #24292f;
+            --text-secondary: #57606a;
+            --link: #0969da;
+            --border: #d0d7de;
+            --accent: #0969da;
+            --code-bg: #f6f8fa;
+            --code-header: #eff1f3;
+            --table-header: #f6f8fa;
+            --table-even: #fbfcfd;
+            --btn-bg: #f6f8fa;
+            --btn-border: #d0d7de;
+            --nav-bg: #ffffff;
+            --shadow: 0 1px 3px rgba(0,0,0,0.1);
+            --tag: #22863a;
+            --attr: #6f42c1;
+            --str: #032f62;
+            --kw: #d73a49;
+            --cmt: #6a737d;
+        }
+        [data-theme="dark"] {
+            --bg: #0d1117;
+            --text: #c9d1d9;
+            --text-secondary: #8b949e;
+            --link: #58a6ff;
+            --border: #30363d;
+            --accent: #58a6ff;
+            --code-bg: #161b22;
+            --code-header: #21262d;
+            --table-header: #161b22;
+            --table-even: #161b22;
+            --btn-bg: #21262d;
+            --btn-border: #30363d;
+            --nav-bg: #161b22;
+            --shadow: 0 1px 3px rgba(0,0,0,0.3);
+            --tag: #7ee787;
+            --attr: #d2a8ff;
+            --str: #a5d6ff;
+            --kw: #ff7b72;
+            --cmt: #8b949e;
+        }
+        * { box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            margin: 0;
+            padding: 60px 0 0;
+        }
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: var(--nav-bg);
+            box-shadow: var(--shadow);
+            z-index: 1000;
+        }
+        .nav-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            height: 60px;
+            gap: 16px;
+        }
+        .nav-logo {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text);
+            text-decoration: none;
+        }
+        .nav-links {
+            display: flex;
+            gap: 8px;
+            flex: 1;
+            justify-content: center;
+        }
+        .nav-link {
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text);
+            background: var(--btn-bg);
+            border: 1px solid var(--btn-border);
+            text-decoration: none;
+        }
+        .nav-link:hover { background: var(--border); }
+        .nav-link.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+        .theme-btn {
+            background: var(--btn-bg);
+            border: 1px solid var(--btn-border);
+            color: var(--text);
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 24px 20px 60px;
+        }
+        h1, h2, h3, h4 { margin-top: 2em; font-weight: 600; }
+        h1 { font-size: 2em; border-bottom: 1px solid var(--border); padding-bottom: 0.3em; margin-top: 0; }
+        h2 { font-size: 1.5em; border-bottom: 1px solid var(--border); padding-bottom: 0.3em; }
+        h3 { font-size: 1.25em; }
+        h4 { font-size: 1.1em; color: var(--text-secondary); }
+        p, li { margin-bottom: 16px; }
+        a { color: var(--link); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        code {
+            background: var(--code-bg);
+            padding: 0.2em 0.4em;
+            border-radius: 6px;
+            font-family: "SFMono-Regular", Consolas, monospace;
+            font-size: 85%;
+        }
+        .intro {
+            background: linear-gradient(135deg, var(--code-bg), var(--bg));
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 32px;
+        }
+        .intro h1 { border: none; margin: 0; padding: 0; }
+        .intro p { margin: 12px 0 0; color: var(--text-secondary); }
+        .toc {
+            background: var(--code-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 20px 24px;
+            margin-bottom: 32px;
+        }
+        .toc h3 { margin: 0 0 12px; }
+        .toc ul { margin: 0; padding-left: 20px; }
+        .toc li { margin-bottom: 8px; }
+        .code-box {
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 24px;
+        }
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--code-header);
+            padding: 8px 16px;
+            font-size: 12px;
+            color: var(--text-secondary);
+            font-weight: 600;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .file-path {
+            font-family: "SFMono-Regular", Consolas, monospace;
+            font-size: 11px;
+            background: var(--bg);
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+        .copy-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+        .copy-btn:hover { background: rgba(128,128,128,0.1); color: var(--text); }
+        .copy-btn svg { width: 14px; height: 14px; fill: currentColor; }
+        pre {
+            margin: 0;
+            padding: 16px;
+            background: var(--code-bg);
+            overflow-x: auto;
+            font-family: "SFMono-Regular", Consolas, monospace;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+        .table-wrap {
+            overflow-x: auto;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            margin-bottom: 24px;
+        }
+        table { width: 100%; border-collapse: collapse; min-width: 500px; }
+        th, td { padding: 12px 16px; border-bottom: 1px solid var(--border); text-align: left; }
+        th { background: var(--table-header); font-weight: 600; }
+        tr:last-child td { border-bottom: none; }
+        tr:nth-child(even) { background: var(--table-even); }
+        .info {
+            background: var(--code-bg);
+            border-left: 4px solid var(--accent);
+            padding: 16px 20px;
+            margin: 24px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        .info strong { color: var(--accent); }
+        .warn {
+            background: #fff8e6;
+            border-left: 4px solid #f0b429;
+            padding: 16px 20px;
+            margin: 24px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        [data-theme="dark"] .warn { background: #3d2e00; }
+        .warn strong { color: #b8860b; }
+        .tree {
+            background: var(--code-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 16px 20px;
+            font-family: "SFMono-Regular", Consolas, monospace;
+            font-size: 13px;
+            line-height: 1.8;
+            overflow-x: auto;
+            white-space: pre;
+        }
+        .folder { color: var(--tag); }
+        .file { color: var(--text); }
+        .cmt { color: var(--cmt); font-style: italic; }
+        .tag { color: var(--tag); }
+        .attr { color: var(--attr); }
+        .str { color: var(--str); }
+        .kw { color: var(--kw); }
+        @media (max-width: 768px) {
+            .nav-inner { flex-wrap: wrap; height: auto; padding: 12px 16px; }
+            .nav-links { order: 3; width: 100%; justify-content: flex-start; margin-top: 8px; }
+            .nav-link { padding: 6px 12px; font-size: 13px; }
+            body { padding-top: 100px; }
+            .container { padding: 16px; }
+            h1 { font-size: 1.6em; }
+            h2 { font-size: 1.3em; }
+            pre { font-size: 12px; }
+            .copy-btn span { display: none; }
+            .theme-btn span { display: none; }
+            .theme-btn::after { content: "🌓"; }
+            .code-header { padding: 8px 12px; }
+            .file-path { width: 100%; order: 3; }
+        }
+    </style>
+</head>
+<body>
+
+<nav class="nav">
+    <div class="nav-inner">
+        <a href="index.html" class="nav-logo">PRISM Docs</a>
+        <div class="nav-links">
+            <a href="index.html" class="nav-link">User Guide</a>
+            <a href="developer.html" class="nav-link active">Developer Guide</a>
+        </div>
+        <button class="theme-btn" onclick="toggleTheme()"><span id="themeText">Dark</span></button>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="intro">
+        <h1>Developer Guide</h1>
+        <p>Add custom watermark templates, logos, and fonts to PRISM.</p>
+    </div>
+
+    <div class="toc">
+        <h3>Contents</h3>
+        <ul>
+            <li><a href="#structure">Project Structure</a></li>
+            <li><a href="#templates">Adding Templates</a></li>
+            <li><a href="#logos">Adding Logos</a></li>
+            <li><a href="#fonts">Adding Fonts</a></li>
+            <li><a href="#color-locks">Color Locks</a></li>
+            <li><a href="#registry">ResourceRegistry</a></li>
+        </ul>
+    </div>
+
+    <section id="structure">
+        <h2>Project Structure</h2>
+        <div class="tree"><span class="folder">app/src/main/</span>
+            ├── <span class="folder">java/io/prism/</span>
+            │   ├── <span class="folder">data/model/</span>
+            │   │   ├── <span class="file">FontResource.kt</span>
+            │   │   ├── <span class="file">LogoResource.kt</span>
+            │   │   └── <span class="file">WatermarkStyle.kt</span> <span class="cmt">← ColorLocks here</span>
+            │   ├── <span class="folder">data/repository/</span>
+            │   │   └── <span class="file">ResourceRegistry.kt</span> <span class="cmt">← Register resources</span>
+            │   └── <span class="folder">utils/</span>
+            │       └── <span class="file">WatermarkRenderer.kt</span> <span class="cmt">← Renders layouts</span>
+            └── <span class="folder">res/</span>
+            ├── <span class="folder">layout/</span>
+            │   └── <span class="file">watermark_*.xml</span>
+            ├── <span class="folder">drawable/</span>
+            │   └── <span class="file">logo_*.xml</span>
+            ├── <span class="folder">font/</span>
+            │   └── <span class="file">*.ttf</span>
+            └── <span class="folder">values/</span>
+            └── <span class="file">strings.xml</span></div>
+    </section>
+
+    <section id="templates">
+        <h2>Adding Templates</h2>
+
+        <h3>Step 1: Create Layout XML</h3>
+        <p>Create file in <code>res/layout/</code>. Required view IDs:</p>
+
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>ID</th><th>Type</th><th>Purpose</th></tr></thead>
+                <tbody>
+                <tr><td><code>watermarkBG</code></td><td>ViewGroup</td><td>Root container</td></tr>
+                <tr><td><code>watermarkLogo</code></td><td>ImageView</td><td>Logo display</td></tr>
+                <tr><td><code>watermarkText</code></td><td>TextView</td><td>Main text</td></tr>
+                <tr><td><code>watermarkDeviceText</code></td><td>TextView</td><td>Device name</td></tr>
+                <tr><td><code>watermarkEXIFDataText</code></td><td>TextView</td><td>EXIF info</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p>Use <code>android:tag="divider"</code> for vertical dividers.</p>
+
+        <div class="code-box">
+            <div class="code-header">
+                <span>XML</span>
+                <span class="file-path">res/layout/watermark_custom.xml</span>
+                <button class="copy-btn" onclick="copyCode(this)">
+                    <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+                    <span>Copy</span>
+                </button>
+            </div>
+            <pre><code><span class="tag">&lt;LinearLayout</span>
+    <span class="attr">xmlns:android</span>=<span class="str">"http://schemas.android.com/apk/res/android"</span>
+    <span class="attr">android:id</span>=<span class="str">"@+id/watermarkBG"</span>
+    <span class="attr">android:layout_width</span>=<span class="str">"match_parent"</span>
+    <span class="attr">android:layout_height</span>=<span class="str">"wrap_content"</span>
+    <span class="attr">android:orientation</span>=<span class="str">"horizontal"</span>
+    <span class="attr">android:padding</span>=<span class="str">"24dp"</span>
+    <span class="attr">android:gravity</span>=<span class="str">"center_vertical"</span>
+    <span class="attr">android:background</span>=<span class="str">"@color/watermark_bg_light"</span><span class="tag">&gt;</span>
+
+    <span class="tag">&lt;ImageView</span>
+        <span class="attr">android:id</span>=<span class="str">"@+id/watermarkLogo"</span>
+        <span class="attr">android:layout_width</span>=<span class="str">"48dp"</span>
+        <span class="attr">android:layout_height</span>=<span class="str">"48dp"</span>
+        <span class="attr">android:layout_marginEnd</span>=<span class="str">"16dp"</span> <span class="tag">/&gt;</span>
+
+    <span class="tag">&lt;View</span>
+        <span class="attr">android:layout_width</span>=<span class="str">"2dp"</span>
+        <span class="attr">android:layout_height</span>=<span class="str">"40dp"</span>
+        <span class="attr">android:layout_marginEnd</span>=<span class="str">"16dp"</span>
+        <span class="attr">android:background</span>=<span class="str">"@color/watermark_divider"</span>
+        <span class="attr">android:tag</span>=<span class="str">"divider"</span> <span class="tag">/&gt;</span>
+
+    <span class="tag">&lt;LinearLayout</span>
+        <span class="attr">android:layout_width</span>=<span class="str">"0dp"</span>
+        <span class="attr">android:layout_height</span>=<span class="str">"wrap_content"</span>
+        <span class="attr">android:layout_weight</span>=<span class="str">"1"</span>
+        <span class="attr">android:orientation</span>=<span class="str">"vertical"</span><span class="tag">&gt;</span>
+
+        <span class="tag">&lt;TextView</span>
+            <span class="attr">android:id</span>=<span class="str">"@+id/watermarkText"</span>
+            <span class="attr">android:layout_width</span>=<span class="str">"wrap_content"</span>
+            <span class="attr">android:layout_height</span>=<span class="str">"wrap_content"</span>
+            <span class="attr">android:textSize</span>=<span class="str">"18sp"</span>
+            <span class="attr">android:textStyle</span>=<span class="str">"bold"</span> <span class="tag">/&gt;</span>
+
+        <span class="tag">&lt;TextView</span>
+            <span class="attr">android:id</span>=<span class="str">"@+id/watermarkDeviceText"</span>
+            <span class="attr">android:layout_width</span>=<span class="str">"wrap_content"</span>
+            <span class="attr">android:layout_height</span>=<span class="str">"wrap_content"</span>
+            <span class="attr">android:layout_marginTop</span>=<span class="str">"2dp"</span>
+            <span class="attr">android:textSize</span>=<span class="str">"14sp"</span>
+            <span class="attr">android:visibility</span>=<span class="str">"gone"</span> <span class="tag">/&gt;</span>
+
+        <span class="tag">&lt;TextView</span>
+            <span class="attr">android:id</span>=<span class="str">"@+id/watermarkEXIFDataText"</span>
+            <span class="attr">android:layout_width</span>=<span class="str">"wrap_content"</span>
+            <span class="attr">android:layout_height</span>=<span class="str">"wrap_content"</span>
+            <span class="attr">android:layout_marginTop</span>=<span class="str">"4dp"</span>
+            <span class="attr">android:textSize</span>=<span class="str">"12sp"</span>
+            <span class="attr">android:alpha</span>=<span class="str">"0.7"</span> <span class="tag">/&gt;</span>
+
+    <span class="tag">&lt;/LinearLayout&gt;</span>
+<span class="tag">&lt;/LinearLayout&gt;</span></code></pre>
+        </div>
+
+        <h3>Step 2: Add Strings</h3>
+        <div class="code-box">
+            <div class="code-header">
+                <span>XML</span>
+                <span class="file-path">res/values/strings.xml</span>
+                <button class="copy-btn" onclick="copyCode(this)">
+                    <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+                    <span>Copy</span>
+                </button>
+            </div>
+            <pre><code><span class="tag">&lt;string</span> <span class="attr">name</span>=<span class="str">"style_custom"</span><span class="tag">&gt;</span>Custom<span class="tag">&lt;/string&gt;</span>
+<span class="tag">&lt;string</span> <span class="attr">name</span>=<span class="str">"style_custom_desc"</span><span class="tag">&gt;</span>Your custom style<span class="tag">&lt;/string&gt;</span></code></pre>
+        </div>
+
+        <h3>Step 3: Register Style</h3>
+        <div class="code-box">
+            <div class="code-header">
+                <span>Kotlin</span>
+                <span class="file-path">ResourceRegistry.kt</span>
+                <button class="copy-btn" onclick="copyCode(this)">
+                    <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+                    <span>Copy</span>
+                </button>
+            </div>
+            <pre><code>WatermarkStyle(
+    id = <span class="str">"custom"</span>,
+    nameResId = R.string.style_custom,
+    layoutResId = R.layout.watermark_custom,
+    descriptionResId = R.string.style_custom_desc
+)</code></pre>
+        </div>
+    </section>
+
+    <section id="logos">
+        <h2>Adding Logos</h2>
+
+        <h3>Step 1: Add Drawable</h3>
+        <div class="code-box">
+            <div class="code-header">
+                <span>XML</span>
+                <span class="file-path">res/drawable/logo_camera.xml</span>
+                <button class="copy-btn" onclick="copyCode(this)">
+                    <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+                    <span>Copy</span>
+                </button>
+            </div>
+            <pre><code><span class="tag">&lt;vector</span> <span class="attr">xmlns:android</span>=<span class="str">"http://schemas.android.com/apk/res/android"</span>
+    <span class="attr">android:width</span>=<span class="str">"24dp"</span>
+    <span class="attr">android:height</span>=<span class="str">"24dp"</span>
+    <span class="attr">android:viewportWidth</span>=<span class="str">"24"</span>
+    <span class="attr">android:viewportHeight</span>=<span class="str">"24"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;path</span>
+        <span class="attr">android:fillColor</span>=<span class="str">"#000000"</span>
+        <span class="attr">android:pathData</span>=<span class="str">"M12,12m-3.2,0a3.2,3.2..."</span> <span class="tag">/&gt;</span>
+<span class="tag">&lt;/vector&gt;</span></code></pre>
+        </div>
+
+        <h3>Step 2: Add String</h3>
+        <div class="code-box">
+            <div class="code-header">
+                <span>XML</span>
+                <span class="file-path">res/values/strings.xml</span>
+            </div>
+            <pre><code><span class="tag">&lt;string</span> <span class="attr">name</span>=<span class="str">"logo_camera"</span><span class="tag">&gt;</span>Camera<span class="tag">&lt;/string&gt;</span></code></pre>
+        </div>
+
+        <h3>Step 3: Register Logo</h3>
+        <div class="code-box">
+            <div class="code-header">
+                <span>Kotlin</span>
+                <span class="file-path">ResourceRegistry.kt</span>
+            </div>
+            <pre><code>LogoResource(
+    id = <span class="str">"camera"</span>,
+    nameResId = R.string.logo_camera,
+    drawableResId = R.drawable.logo_camera,
+    isMonochrome = <span class="kw">true</span>
+)</code></pre>
+        </div>
+
+        <div class="info">
+            <strong>Monochrome:</strong> Set <code>isMonochrome = true</code> for single-color logos. They adapt to text color automatically.
+        </div>
+    </section>
+
+    <section id="fonts">
+        <h2>Adding Fonts</h2>
+
+        <h3>Step 1: Add Font File</h3>
+        <p>Place TTF/OTF in <code>res/font/</code>. Use lowercase with underscores:</p>
+        <ul>
+            <li><code>res/font/opensans_regular.ttf</code></li>
+            <li><code>res/font/opensans_bold.ttf</code></li>
+        </ul>
+
+        <h3>Step 2: Add String</h3>
+        <div class="code-box">
+            <div class="code-header">
+                <span>XML</span>
+                <span class="file-path">res/values/strings.xml</span>
+            </div>
+            <pre><code><span class="tag">&lt;string</span> <span class="attr">name</span>=<span class="str">"font_opensans"</span><span class="tag">&gt;</span>Open Sans<span class="tag">&lt;/string&gt;</span></code></pre>
+        </div>
+
+        <h3>Step 3: Register Font</h3>
+        <div class="code-box">
+            <div class="code-header">
+                <span>Kotlin</span>
+                <span class="file-path">ResourceRegistry.kt</span>
+            </div>
+            <pre><code>FontResource(
+    id = <span class="str">"opensans"</span>,
+    nameResId = R.string.font_opensans,
+    fontResId = R.font.opensans_regular
+)</code></pre>
+        </div>
+    </section>
+
+    <section id="color-locks">
+        <h2>Color Locks</h2>
+        <p>Lock colors so they cannot be changed by users.</p>
+
+        <h3>ColorLocks Data Class</h3>
+        <div class="code-box">
+            <div class="code-header">
+                <span>Kotlin</span>
+                <span class="file-path">WatermarkStyle.kt</span>
+            </div>
+            <pre><code><span class="kw">data class</span> ColorLocks(
+    <span class="kw">val</span> backgroundColorLocked: Boolean = <span class="kw">false</span>,
+    <span class="kw">val</span> mainTextColorLocked: Boolean = <span class="kw">false</span>,
+    <span class="kw">val</span> exifTextColorLocked: Boolean = <span class="kw">false</span>,
+    <span class="kw">val</span> forcedBackgroundColor: Int? = <span class="kw">null</span>,
+    <span class="kw">val</span> forcedMainTextColor: Int? = <span class="kw">null</span>,
+    <span class="kw">val</span> forcedExifTextColor: Int? = <span class="kw">null</span>
+)</code></pre>
+        </div>
+
+        <h3>Example: Branded Dark Style</h3>
+        <div class="code-box">
+            <div class="code-header">
+                <span>Kotlin</span>
+                <span class="file-path">ResourceRegistry.kt</span>
+                <button class="copy-btn" onclick="copyCode(this)">
+                    <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+                    <span>Copy</span>
+                </button>
+            </div>
+            <pre><code>WatermarkStyle(
+    id = <span class="str">"branded_dark"</span>,
+    nameResId = R.string.style_branded_dark,
+    layoutResId = R.layout.watermark_standard,
+    descriptionResId = R.string.style_branded_dark_desc,
+    colorLocks = ColorLocks(
+        backgroundColorLocked = <span class="kw">true</span>,
+        mainTextColorLocked = <span class="kw">true</span>,
+        exifTextColorLocked = <span class="kw">true</span>,
+        forcedBackgroundColor = Color.parseColor(<span class="str">"#1a1a2e"</span>),
+        forcedMainTextColor = Color.parseColor(<span class="str">"#edf2f4"</span>),
+        forcedExifTextColor = Color.parseColor(<span class="str">"#8d99ae"</span>)
+    )
+)</code></pre>
+        </div>
+
+        <div class="info">
+            <strong>Theme Lock:</strong> When both <code>backgroundColorLocked</code> and <code>mainTextColorLocked</code> are true, the Light/Dark theme selector is automatically disabled.
+        </div>
+    </section>
+
+    <section id="registry">
+        <h2>ResourceRegistry</h2>
+        <p>Central place for all built-in resources.</p>
+
+        <div class="code-box">
+            <div class="code-header">
+                <span>Kotlin</span>
+                <span class="file-path">ResourceRegistry.kt</span>
+                <button class="copy-btn" onclick="copyCode(this)">
+                    <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+                    <span>Copy</span>
+                </button>
+            </div>
+            <pre><code><span class="kw">object</span> ResourceRegistry {
+
+    <span class="kw">val</span> fonts: List&lt;FontResource&gt; = listOf(
+        FontResource(
+            id = <span class="str">"roboto"</span>,
+            nameResId = R.string.font_roboto,
+            fontResId = R.font.roboto_regular
+        )
+    )
+
+    <span class="kw">val</span> defaultFont = fonts.first()
+
+    <span class="kw">val</span> builtInLogos: List&lt;LogoResource&gt; = listOf(
+        LogoResource.NO_LOGO.copy(nameResId = R.string.logo_none),
+        LogoResource(
+            id = <span class="str">"prism"</span>,
+            nameResId = R.string.logo_prism,
+            drawableResId = R.drawable.logo_prism,
+            isMonochrome = <span class="kw">false</span>
+        )
+    )
+
+    <span class="kw">val</span> defaultLogo = builtInLogos[1]
+
+    <span class="kw">val</span> styles: List&lt;WatermarkStyle&gt; = listOf(
+        WatermarkStyle(
+            id = <span class="str">"standard"</span>,
+            nameResId = R.string.style_standard,
+            layoutResId = R.layout.watermark_standard,
+            descriptionResId = R.string.style_standard_desc
+        )
+    )
+
+    <span class="kw">val</span> defaultStyle = styles.first()
+
+    <span class="kw">fun</span> findFontById(id: String) = fonts.find { it.id == id }
+    <span class="kw">fun</span> findLogoById(id: String) = builtInLogos.find { it.id == id }
+    <span class="kw">fun</span> findStyleById(id: String) = styles.find { it.id == id }
+}</code></pre>
+        </div>
+
+        <h3>Checklist</h3>
+        <ul>
+            <li>✅ Create resource file (layout/drawable/font)</li>
+            <li>✅ Add display name to strings.xml</li>
+            <li>✅ Register in ResourceRegistry</li>
+            <li>✅ Use unique lowercase ID</li>
+            <li>✅ Build and test</li>
+        </ul>
+
+        <div class="warn">
+            <strong>Important:</strong> IDs must be unique. They are used for saving user preferences.
+        </div>
+    </section>
+
+</div>
+
+<script>
+    const html = document.documentElement;
+    const saved = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+    function applyTheme(t) {
+        html.setAttribute('data-theme', t);
+        const btn = document.getElementById('themeText');
+        if (btn) btn.textContent = t === 'dark' ? 'Light' : 'Dark';
+        localStorage.setItem('theme', t);
+    }
+
+    if (saved) applyTheme(saved);
+    else if (prefersDark) applyTheme('dark');
+
+    function toggleTheme() {
+        applyTheme(html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+    }
+
+    function copyCode(btn) {
+        const code = btn.closest('.code-box').querySelector('code').textContent;
+        navigator.clipboard.writeText(code).then(() => {
+            const orig = btn.innerHTML;
+            btn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg><span>Copied!</span>';
+            btn.style.color = 'var(--accent)';
+            setTimeout(() => { btn.innerHTML = orig; btn.style.color = ''; }, 2000);
+        });
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+        a.addEventListener('click', e => {
+            e.preventDefault();
+            const target = document.querySelector(a.getAttribute('href'));
+            if (target) {
+                const nav = document.querySelector('.nav').offsetHeight;
+                window.scrollTo({ top: target.offsetTop - nav - 20, behavior: 'smooth' });
+            }
+        });
+    });
+</script>
+
+</body>
+</html>

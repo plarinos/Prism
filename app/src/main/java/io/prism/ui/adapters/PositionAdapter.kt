@@ -13,7 +13,7 @@ class PositionAdapter(
     private val onPositionSelected: (WatermarkPosition) -> Unit
 ) : RecyclerView.Adapter<PositionAdapter.PositionViewHolder>() {
 
-    private val positions = WatermarkPosition.values().toList()
+    private val positions = WatermarkPosition.entries.toList()
     private var selectedPosition: WatermarkPosition = WatermarkPosition.BOTTOM
 
     fun setSelectedPosition(position: WatermarkPosition) {
@@ -50,8 +50,6 @@ class PositionAdapter(
             val (nameRes, iconRes) = when (position) {
                 WatermarkPosition.TOP -> R.string.position_top to R.drawable.ic_position_top
                 WatermarkPosition.BOTTOM -> R.string.position_bottom to R.drawable.ic_position_bottom
-                WatermarkPosition.LEFT -> R.string.position_left to R.drawable.ic_position_left
-                WatermarkPosition.RIGHT -> R.string.position_right to R.drawable.ic_position_right
             }
 
             positionName.text = context.getString(nameRes)
@@ -61,6 +59,7 @@ class PositionAdapter(
             selectionOverlay.visibility = if (isSelected) View.VISIBLE else View.GONE
 
             itemView.setOnClickListener {
+                this@PositionAdapter.setSelectedPosition(position)
                 onPositionSelected(position)
             }
         }

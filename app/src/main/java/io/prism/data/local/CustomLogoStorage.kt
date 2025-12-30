@@ -26,7 +26,6 @@ class CustomLogoStorage(private val context: Context) {
         val id = UUID.randomUUID().toString()
         val logoFile = File(logosDir, "$id.png")
 
-        
         context.contentResolver.openInputStream(uri)?.use { input ->
             val bitmap = BitmapFactory.decodeStream(input)
             FileOutputStream(logoFile).use { output ->
@@ -42,9 +41,7 @@ class CustomLogoStorage(private val context: Context) {
             isMonochrome = isMonochrome
         )
 
-        
         saveLogoMetadata(customLogo)
-
         customLogo
     }
 
@@ -57,7 +54,6 @@ class CustomLogoStorage(private val context: Context) {
             val obj = jsonArray.getJSONObject(i)
             val filePath = obj.getString("filePath")
 
-            
             if (File(filePath).exists()) {
                 logos.add(
                     CustomLogo(
@@ -70,7 +66,6 @@ class CustomLogoStorage(private val context: Context) {
                 )
             }
         }
-
         logos
     }
 
@@ -79,10 +74,7 @@ class CustomLogoStorage(private val context: Context) {
         val logo = logos.find { it.id == id }
 
         logo?.let {
-            
             File(it.filePath).delete()
-
-            
             logos.removeAll { l -> l.id == id }
             saveAllLogos(logos)
         }
@@ -121,7 +113,6 @@ class CustomLogoStorage(private val context: Context) {
                 )
             )
         }
-
         return logos
     }
 

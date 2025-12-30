@@ -9,7 +9,9 @@
     android:clickable="true"
     android:focusable="true"
     app:cardCornerRadius="12dp"
-    app:cardElevation="2dp">
+    app:cardElevation="0dp"
+    app:strokeWidth="1dp"
+    app:strokeColor="?attr/colorOutline">
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -37,7 +39,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:textAppearance="?attr/textAppearanceBodySmall"
-                android:alpha="0.7"
+                android:textColor="?attr/colorOnSurfaceVariant"
                 android:maxLines="2"
                 android:ellipsize="end"
                 android:visibility="gone"
@@ -46,7 +48,6 @@
 
         </LinearLayout>
 
-        
         <View
             android:id="@+id/selectionOverlay"
             android:layout_width="match_parent"
@@ -54,7 +55,6 @@
             android:background="@drawable/selection_overlay"
             android:visibility="gone" />
 
-        
         <ImageButton
             android:id="@+id/deleteButton"
             android:layout_width="24dp"

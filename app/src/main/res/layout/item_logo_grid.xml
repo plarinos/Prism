@@ -9,7 +9,9 @@
     android:clickable="true"
     android:focusable="true"
     app:cardCornerRadius="12dp"
-    app:cardElevation="2dp">
+    app:cardElevation="0dp"
+    app:strokeWidth="1dp"
+    app:strokeColor="?attr/colorOutline">
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -55,11 +57,10 @@
                 android:textAppearance="?attr/textAppearanceBodySmall"
                 android:maxLines="1"
                 android:ellipsize="end"
-                tools:text="Leica" />
+                tools:text="PRISM" />
 
         </LinearLayout>
 
-        
         <View
             android:id="@+id/selectionOverlay"
             android:layout_width="match_parent"
@@ -67,7 +68,6 @@
             android:background="@drawable/selection_overlay"
             android:visibility="gone" />
 
-        
         <ImageButton
             android:id="@+id/deleteButton"
             android:layout_width="24dp"

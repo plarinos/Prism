@@ -2,7 +2,6 @@ package io.prism.data.local
 
 import android.content.Context
 import io.prism.data.model.CustomTemplate
-import io.prism.data.model.WatermarkOrientation
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.json.JSONArray
@@ -16,15 +15,13 @@ class CustomTemplateStorage(private val context: Context) {
     suspend fun saveCustomTemplate(
         name: String,
         description: String,
-        templateJson: String,
-        orientation: WatermarkOrientation
+        templateJson: String
     ): CustomTemplate = withContext(Dispatchers.IO) {
         val template = CustomTemplate(
             id = UUID.randomUUID().toString(),
             name = name,
             description = description,
-            templateJson = templateJson,
-            orientation = orientation
+            templateJson = templateJson
         )
 
         val templates = getAllCustomTemplatesSync().toMutableList()
@@ -67,14 +64,10 @@ class CustomTemplateStorage(private val context: Context) {
                     name = obj.getString("name"),
                     description = obj.optString("description", ""),
                     templateJson = obj.getString("templateJson"),
-                    orientation = WatermarkOrientation.valueOf(
-                        obj.optString("orientation", "HORIZONTAL")
-                    ),
                     createdAt = obj.optLong("createdAt", 0)
                 )
             )
         }
-
         return templates
     }
 
@@ -86,7 +79,6 @@ class CustomTemplateStorage(private val context: Context) {
                 put("name", template.name)
                 put("description", template.description)
                 put("templateJson", template.templateJson)
-                put("orientation", template.orientation.name)
                 put("createdAt", template.createdAt)
             }
             jsonArray.put(obj)
@@ -101,11 +93,11 @@ class CustomTemplateStorage(private val context: Context) {
         private const val PREFS_NAME = "custom_templates"
         private const val KEY_TEMPLATES = "templates"
 
-        
         val EXAMPLE_TEMPLATE_JSON = """
             {
                 "layout": "horizontal",
                 "padding": 24,
+                "ignoreTheme": false,
                 "elements": [
                     {
                         "type": "logo",
@@ -114,6 +106,7 @@ class CustomTemplateStorage(private val context: Context) {
                     },
                     {
                         "type": "divider",
+                        "style": "vertical",
                         "width": 2,
                         "height": 40,
                         "marginEnd": 16
@@ -125,6 +118,11 @@ class CustomTemplateStorage(private val context: Context) {
                                 "type": "main_text",
                                 "size": 18,
                                 "bold": true
+                            },
+                            {
+                                "type": "device_name",
+                                "size": 14,
+                                "marginTop": 4
                             },
                             {
                                 "type": "exif_text",

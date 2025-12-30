@@ -12,7 +12,8 @@ import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.FileOutputStream
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
+import java.util.Locale
 
 object ImageSaver {
 
@@ -89,7 +90,6 @@ object ImageSaver {
             bitmap.compress(Bitmap.CompressFormat.JPEG, quality, outputStream)
         }
 
-        
         val values = ContentValues().apply {
             put(MediaStore.Images.Media.DATA, file.absolutePath)
             put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg")

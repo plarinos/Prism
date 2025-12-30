@@ -27,7 +27,6 @@ object ExifUtils {
         val make = exif.getAttribute(ExifInterface.TAG_MAKE)?.trim()
         val model = exif.getAttribute(ExifInterface.TAG_MODEL)?.trim()
 
-        
         val cleanedModel = cleanModelName(make, model)
 
         return ExifData(
@@ -44,7 +43,6 @@ object ExifUtils {
         )
     }
 
-    
     private fun cleanModelName(make: String?, model: String?): String? {
         if (model == null) return null
         if (make == null) return model
@@ -52,7 +50,6 @@ object ExifUtils {
         val makeUpper = make.uppercase().trim()
         val modelUpper = model.uppercase().trim()
 
-        
         return if (modelUpper.startsWith(makeUpper)) {
             model.substring(make.length).trim()
         } else if (modelUpper.startsWith("$makeUpper ")) {
@@ -62,7 +59,6 @@ object ExifUtils {
         }
     }
 
-    
     private fun parseFocalLength(value: String?): String? {
         if (value == null) return null
         return try {
@@ -75,16 +71,12 @@ object ExifUtils {
 
                 val result = numerator / denominator
 
-                
                 if (result == result.toLong().toDouble()) {
-                    
                     result.toLong().toString()
                 } else {
-                    
                     String.format("%.1f", result).replace(",", ".")
                 }
             } else {
-                
                 val num = value.toDoubleOrNull()
                 if (num != null) {
                     if (num == num.toLong().toDouble()) {
@@ -102,7 +94,6 @@ object ExifUtils {
         }
     }
 
-    
     private fun parseAperture(value: String?): String? {
         if (value == null) return null
         return try {
@@ -116,7 +107,6 @@ object ExifUtils {
                 val result = numerator / denominator
                 String.format("%.1f", result).replace(",", ".")
             } else {
-                
                 val num = value.toDoubleOrNull()
                 if (num != null) {
                     String.format("%.1f", num).replace(",", ".")
@@ -130,7 +120,6 @@ object ExifUtils {
         }
     }
 
-    
     private fun parseExposureTime(value: String?): String? {
         if (value == null) return null
         return try {
@@ -139,16 +128,13 @@ object ExifUtils {
             when {
                 exposure <= 0 -> value
                 exposure < 1 -> {
-                    
                     val denominator = (1.0 / exposure).toLong()
                     "1/$denominator"
                 }
                 exposure == exposure.toLong().toDouble() -> {
-                    
                     "${exposure.toLong()}"
                 }
                 else -> {
-                    
                     String.format("%.1f", exposure).replace(",", ".")
                 }
             }

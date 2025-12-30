@@ -2,97 +2,116 @@
 <resources>
     <string name="app_name">PRISM</string>
 
+    <!-- Main Screen -->
+    <string name="tap_to_select_image">Tap to select image</string>
+    <string name="loading_image">Loading image…</string>
+    <string name="image_size_format">%1$d × %2$d px</string>
+    <string name="process_image">Apply Watermark</string>
+
     <!-- Sections -->
-    <string name="section_image">Image</string>
     <string name="section_text">Text</string>
+    <string name="section_style">Style</string>
+    <string name="section_logo">Logo</string>
     <string name="section_fonts">Fonts</string>
     <string name="section_position">Position</string>
-    <string name="section_logo">Logo</string>
-    <string name="section_theme">Theme</string>
-    <string name="section_style">Style</string>
     <string name="section_scale">Scale</string>
+    <string name="section_theme">Watermark Theme</string>
+    <string name="section_exif">EXIF Data</string>
+    <string name="section_colors">Colors</string>
+
+    <!-- Toolbar Labels -->
+    <string name="toolbar_text">Text</string>
+    <string name="toolbar_style">Style</string>
+    <string name="toolbar_logo">Logo</string>
+    <string name="toolbar_fonts">Fonts</string>
+    <string name="toolbar_position">Position</string>
+    <string name="toolbar_scale">Scale</string>
+    <string name="toolbar_theme">Theme</string>
+    <string name="toolbar_exif">EXIF</string>
+    <string name="toolbar_colors">Colors</string>
 
     <!-- Actions -->
-    <string name="select_image">Select Image</string>
-    <string name="change_image">Change Image</string>
-    <string name="process_image">Apply Watermark</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
     <string name="add">Add</string>
     <string name="delete">Delete</string>
-
-    <!-- Labels -->
-    <string name="label_main_font">Main Text Font</string>
-    <string name="label_exif_font">EXIF Text Font</string>
+    <string name="reset">Reset</string>
 
     <!-- Text Input -->
-    <string name="hint_main_text">Watermark text</string>
-    <string name="use_exif_data">Include EXIF data</string>
+    <string name="hint_main_text">Watermark text (optional)</string>
+    <string name="text_optional_hint">Leave empty to show only EXIF data</string>
     <string name="default_watermark_text">Shot on PRISM</string>
-    <string name="no_exif_data">No EXIF data available</string>
+
+    <!-- Fonts -->
+    <string name="label_main_font">Main Text Font</string>
+    <string name="label_exif_font">EXIF Text Font</string>
+    <string name="font_roboto">Roboto</string>
+    <string name="font_roboto_bold">Roboto Bold</string>
+    <string name="font_playfair">Playfair Display</string>
+    <string name="font_playfair_bold">Playfair Bold</string>
+    <string name="font_oswald">Oswald</string>
+    <string name="badscript_regular">BadScript</string>
+    <string name="font_jetbrains">JetBrains Mono</string>
+    <string name="font_jetbrains_bold">JetBrains Bold</string>
 
     <!-- Position -->
     <string name="position_top">Top</string>
     <string name="position_bottom">Bottom</string>
-    <string name="position_left">Left</string>
-    <string name="position_right">Right</string>
+
+    <!-- Scale -->
+    <string name="scale_min">5%</string>
+    <string name="scale_max">50%</string>
+    <string name="scale_value_format">%1$d%%</string>
 
     <!-- Theme -->
     <string name="theme_light">Light</string>
     <string name="theme_dark">Dark</string>
+    <string name="theme_description">Choose watermark background and text colors</string>
 
-    <!-- Scale -->
-    <string name="scale_min">7.5%</string>
-    <string name="scale_max">45%</string>
-    <string name="scale_value_format">%d%%</string>
-
-    <!-- Image info -->
-    <string name="loading_image">Loading image…</string>
-    <string name="image_size_format">%d × %d px</string>
-
-    <!-- Fonts -->
-    <string name="font_roboto">Roboto</string>
-    <string name="font_roboto_bold">Roboto Bold</string>
-    <string name="font_roboto_light">Roboto Light</string>
-    <string name="font_roboto_mono">Roboto Mono</string>
-    <string name="font_playfair">Playfair Display</string>
-    <string name="font_playfair_bold">Playfair Display Bold</string>
-    <string name="font_montserrat">Montserrat</string>
-    <string name="font_oswald">Oswald</string>
-    <string name="badscript_regular">BadScript</string>
-    <string name="font_jetbrains">JetBrains Mono</string>
-    <string name="font_jetbrains_bold">JetBrains Mono Bold</string>
-
-    <!-- Logos -->
+    <!-- Logo -->
     <string name="logo_none">No Logo</string>
     <string name="logo_prism">PRISM</string>
-
-    <!-- Custom Logo -->
     <string name="add_logo">Add Logo</string>
     <string name="add_custom_logo">Add Custom Logo</string>
     <string name="select_logo_file">Select Logo</string>
     <string name="hint_logo_name">Logo name</string>
     <string name="logo_is_monochrome">Monochrome logo</string>
-    <string name="logo_monochrome_hint">Enable for text-based logos. The logo will match the watermark text color.</string>
+    <string name="logo_monochrome_hint">Enable for single-color logos. The logo will match the watermark text color.</string>
+    <string name="trademark_disclaimer">Custom logos are the property of their respective owners. You are responsible for proper usage rights.</string>
 
-    <!-- Custom Template -->
+    <!-- Styles -->
+    <string name="style_standard">Standard</string>
+    <string name="style_standard_desc">Logo with divider and full info</string>
+    <string name="style_minimal">Minimal</string>
+    <string name="style_minimal_desc">Clean and simple</string>
+    <string name="style_classic">Classic</string>
+    <string name="style_classic_desc">Text on left, logo on right</string>
     <string name="add_template">Add Template</string>
     <string name="add_custom_template">Add Custom Template</string>
     <string name="hint_template_name">Template name</string>
     <string name="hint_template_description">Description (optional)</string>
     <string name="hint_template_json">Template JSON</string>
-    <string name="load_from_file">Load from file</string>
     <string name="template_json_hint">Define layout using JSON format. See documentation for schema.</string>
-    <string name="template_loaded">Template loaded</string>
-    <string name="error_loading_template">Error loading template</string>
 
-    <!-- Styles -->
-    <string name="style_standard">Standard</string>
-    <string name="style_standard_desc">Logo with full info</string>
-    <string name="style_minimal">Minimal</string>
-    <string name="style_minimal_desc">Clean and simple</string>
-    <string name="style_classic">Classic</string>
-    <string name="style_classic_desc">Traditional layout</string>
+    <!-- EXIF Settings -->
+    <string name="use_exif_data">Show EXIF data</string>
+    <string name="exif_device">Device name</string>
+    <string name="exif_iso">ISO</string>
+    <string name="exif_focal">Focal length</string>
+    <string name="exif_aperture">Aperture</string>
+    <string name="exif_exposure">Exposure time</string>
+    <string name="exif_custom_value">Custom value (optional)</string>
+    <string name="device_in_same_line">Show device in EXIF line</string>
+    <string name="exif_separator">Separator</string>
+    <string name="exif_separator_hint">1–3 characters</string>
+
+    <!-- Color Settings -->
+    <string name="use_custom_colors">Use custom colors</string>
+    <string name="color_background">Background color</string>
+    <string name="color_text">Main text color</string>
+    <string name="color_exif">EXIF text color</string>
+    <string name="color_hex">HEX color</string>
+    <string name="color_locked">Locked by template</string>
 
     <!-- Processing -->
     <string name="processing_loading">Loading image…</string>
@@ -109,18 +128,32 @@
 
     <!-- Content Descriptions -->
     <string name="cd_image_preview">Selected image preview</string>
+    <string name="cd_watermark_preview">Watermark preview</string>
     <string name="cd_watermark_logo">Watermark logo</string>
     <string name="cd_logo_preview">Logo preview</string>
 
-    <!-- Delete confirmation -->
-    <string name="delete_logo_title">Delete Logo</string>
-    <string name="delete_logo_message">Are you sure you want to delete \"%1$s\"?</string>
-    <string name="delete_template_title">Delete Template</string>
-    <string name="delete_template_message">Are you sure you want to delete \"%1$s\"?</string>
+    <string name="style_branded_dark">Branded Dark</string>
+    <string name="style_branded_dark_desc">Fixed dark theme colors</string>
+    <string name="style_branded_light">Branded Light</string>
+    <string name="style_branded_light_desc">Fixed light background</string>
 
-    <string name="trademark_disclaimer">Custom logos are the property of their respective owners. By uploading a logo, you confirm you have the right to use it and assume all responsibility for any trademark infringement.</string>
+    <string name="theme_locked_message">This template has fixed colors and does not support theme switching. You can customize available colors in the Colors tab, or select a different template in Style.</string>
 
-    <!-- Template guide -->
+    <string name="save_settings">Save settings</string>
+    <string name="watermark_preview_label">Watermark Preview</string>
+
     <string name="how_to_create_template">How to create?</string>
     <string name="template_guide_url">https://markus1394.github.io/Prism/</string>
+
+    <!-- Delete confirmation -->
+    <string name="delete_logo_title">Delete Logo</string>
+    <string name="delete_logo_message">Delete \"%1$s\"?</string>
+    <string name="delete_template_title">Delete Template</string>
+    <string name="delete_template_message">Delete \"%1$s\"?</string>
+
+    <!-- Reset Settings -->
+    <string name="reset_settings">Reset settings</string>
+    <string name="reset_settings_title">Reset Settings</string>
+    <string name="reset_settings_message">All watermark settings will be reset to defaults. Continue?</string>
+    <string name="settings_reset_success">Settings reset to defaults</string>
 </resources>

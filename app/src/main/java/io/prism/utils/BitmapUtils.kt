@@ -14,13 +14,9 @@ import kotlin.math.max
 
 object BitmapUtils {
 
-    
     private const val MAX_PREVIEW_SIZE = 2048
-
-    
     private const val MAX_PROCESSING_SIZE = 8192
 
-    
     suspend fun loadBitmapForPreview(context: Context, uri: Uri): Bitmap? = withContext(Dispatchers.IO) {
         try {
             val dimensions = getImageDimensions(context, uri) ?: return@withContext null
@@ -48,7 +44,6 @@ object BitmapUtils {
         }
     }
 
-    
     suspend fun loadBitmapForProcessing(context: Context, uri: Uri): Bitmap? = withContext(Dispatchers.IO) {
         try {
             val dimensions = getImageDimensions(context, uri) ?: return@withContext null
@@ -209,7 +204,6 @@ object BitmapUtils {
         }
     }
 
-    
     fun appendWatermark(
         original: Bitmap,
         watermark: Bitmap,
@@ -238,22 +232,6 @@ object BitmapUtils {
                 originalY = 0
                 watermarkX = (resultWidth - watermark.width) / 2
                 watermarkY = original.height
-            }
-            WatermarkPosition.LEFT -> {
-                resultWidth = original.width + watermark.width
-                resultHeight = maxOf(original.height, watermark.height)
-                originalX = watermark.width
-                originalY = (resultHeight - original.height) / 2
-                watermarkX = 0
-                watermarkY = (resultHeight - watermark.height) / 2
-            }
-            WatermarkPosition.RIGHT -> {
-                resultWidth = original.width + watermark.width
-                resultHeight = maxOf(original.height, watermark.height)
-                originalX = 0
-                originalY = (resultHeight - original.height) / 2
-                watermarkX = original.width
-                watermarkY = (resultHeight - watermark.height) / 2
             }
         }
 

@@ -48,7 +48,6 @@ class FontGridAdapter(
 
             fontName.text = context.getString(font.nameResId)
 
-            
             val typeface = if (font.fontResId != 0) {
                 try {
                     ResourcesCompat.getFont(context, font.fontResId)
@@ -64,6 +63,7 @@ class FontGridAdapter(
             selectionOverlay.visibility = if (isSelected) View.VISIBLE else View.GONE
 
             itemView.setOnClickListener {
+                this@FontGridAdapter.setSelectedFont(font)
                 onFontSelected(font)
             }
         }
@@ -72,6 +72,7 @@ class FontGridAdapter(
     private class FontDiffCallback : DiffUtil.ItemCallback<FontResource>() {
         override fun areItemsTheSame(oldItem: FontResource, newItem: FontResource) =
             oldItem.id == newItem.id
+
         override fun areContentsTheSame(oldItem: FontResource, newItem: FontResource) =
             oldItem == newItem
     }

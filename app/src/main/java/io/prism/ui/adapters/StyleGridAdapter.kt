@@ -101,7 +101,6 @@ class StyleGridAdapter(
                 styleDesc.visibility = View.GONE
             }
 
-            
             deleteButton.visibility = if (style.isCustom) View.VISIBLE else View.GONE
             deleteButton.setOnClickListener {
                 onDeleteCustomTemplate(style)
@@ -111,6 +110,7 @@ class StyleGridAdapter(
             selectionOverlay.visibility = if (isSelected) View.VISIBLE else View.GONE
 
             itemView.setOnClickListener {
+                this@StyleGridAdapter.setSelectedStyle(style)
                 onStyleSelected(style)
             }
         }

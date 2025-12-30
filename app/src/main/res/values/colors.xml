@@ -1,48 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Primary Colors - Leica Red inspired -->
-    <color name="primary">#D32F2F</color>
-    <color name="primary_variant">#B71C1C</color>
+    <!-- Primary - Blue tones -->
+    <color name="primary_light">#0969DA</color>
+    <color name="primary_dark">#58A6FF</color>
     <color name="on_primary">#FFFFFF</color>
 
-    <color name="logo_xmage">#FF0000</color>
-    <color name="logo_haselblad">#373535</color>
+    <!-- Secondary -->
+    <color name="secondary_light">#6E7781</color>
+    <color name="secondary_dark">#8B949E</color>
 
-    <!-- Secondary Colors -->
-    <color name="secondary">#424242</color>
-    <color name="secondary_variant">#212121</color>
-    <color name="on_secondary">#FFFFFF</color>
+    <!-- Success/Accent - Green for selected items -->
+    <color name="accent_light">#1A7F37</color>
+    <color name="accent_dark">#3FB950</color>
+    <color name="selected_light">#DAFBE1</color>
+    <color name="selected_dark">#238636</color>
 
-    <!-- Background Colors -->
-    <color name="background_light">#FAFAFA</color>
-    <color name="background_dark">#121212</color>
+    <!-- Background - Light theme -->
+    <color name="background_light">#FFFFFF</color>
     <color name="surface_light">#FFFFFF</color>
-    <color name="surface_dark">#1E1E1E</color>
+    <color name="surface_variant_light">#F6F8FA</color>
+    <color name="surface_alt_light">#F6F8FA</color>
+    <color name="on_background_light">#1F2328</color>
+    <color name="on_surface_light">#1F2328</color>
+    <color name="on_surface_variant_light">#656D76</color>
+    <color name="outline_light">#D0D7DE</color>
 
-    <!-- Text Colors -->
-    <color name="text_primary_light">#212121</color>
-    <color name="text_primary_dark">#FFFFFF</color>
-    <color name="text_secondary_light">#757575</color>
-    <color name="text_secondary_dark">#B3B3B3</color>
+    <!-- Background - Dark theme -->
+    <color name="background_dark">#0D1117</color>
+    <color name="surface_dark">#161B22</color>
+    <color name="surface_variant_dark">#21262D</color>
+    <color name="surface_alt_dark">#161B22</color>
+    <color name="on_background_dark">#E6EDF3</color>
+    <color name="on_surface_dark">#E6EDF3</color>
+    <color name="on_surface_variant_dark">#8B949E</color>
+    <color name="outline_dark">#30363D</color>
+
+    <!-- Row alternating colors -->
+    <color name="row_even_light">#FFFFFF</color>
+    <color name="row_odd_light">#F6F8FA</color>
+    <color name="row_even_dark">#161B22</color>
+    <color name="row_odd_dark">#0D1117</color>
 
     <!-- Watermark Colors -->
     <color name="watermark_bg_light">#FFFFFF</color>
-    <color name="watermark_bg_dark">#1A1A1A</color>
+    <color name="watermark_bg_dark">#0D1117</color>
     <color name="watermark_text_light">#FFFFFF</color>
-    <color name="watermark_text_dark">#1A1A1A</color>
-    <color name="watermark_divider">#9E9E9E</color>
+    <color name="watermark_text_dark">#1F2328</color>
+    <color name="watermark_divider">#D0D7DE</color>
 
     <!-- UI Colors -->
-    <color name="overlay_background">#99000000</color>
-    <color name="selection_indicator_color">@color/primary</color>
+    <color name="overlay_background">#80000000</color>
 
-    <!-- Item colors (simple, not state list) -->
-    <color name="item_stroke_default">#E0E0E0</color>
-    <color name="item_stroke_selected">@color/primary</color>
+    <!-- Error -->
+    <color name="error_light">#CF222E</color>
+    <color name="error_dark">#F85149</color>
 
-    <!-- Seed Color for Material You -->
-    <color name="seed">#D32F2F</color>
-
-    <color name="monochrome_logo_color_dark">#FFFFFF</color>
-    <color name="monochrome_logo_color_light">#000000</color>
+    <!-- Switch colors -->
+    <color name="switch_track_off_light">#AFB8C1</color>
+    <color name="switch_track_off_dark">#484F58</color>
 </resources>

@@ -1,16 +1,13 @@
 package io.prism.data.repository
 
+import android.graphics.Color
 import io.prism.R
+import io.prism.data.model.ColorLocks
 import io.prism.data.model.FontResource
 import io.prism.data.model.LogoResource
 import io.prism.data.model.WatermarkStyle
 
-/**
- * Central registry for all static resources.
- */
 object ResourceRegistry {
-
-    // ==================== FONTS ====================
 
     val fonts: List<FontResource> = listOf(
         FontResource(
@@ -38,11 +35,6 @@ object ResourceRegistry {
             nameResId = R.string.badscript_regular,
             fontResId = R.font.badscript_regular
         ),
-//        FontResource(
-//            id = "montserrat",
-//            nameResId = R.string.font_montserrat,
-//            fontResId = R.font.montserrat_regular
-//        ),
         FontResource(
             id = "oswald",
             nameResId = R.string.font_oswald,
@@ -62,10 +54,8 @@ object ResourceRegistry {
 
     val defaultFont: FontResource = fonts.find { it.id == "roboto_regular" } ?: fonts.first()
 
-    // ==================== LOGOS ====================
-
     val builtInLogos: List<LogoResource> = listOf(
-        LogoResource.NO_LOGO.copy(nameResId = R.string.logo_none), // "Без лого"
+        LogoResource.NO_LOGO.copy(nameResId = R.string.logo_none),
         LogoResource(
             id = "prism",
             nameResId = R.string.logo_prism,
@@ -76,35 +66,28 @@ object ResourceRegistry {
 
     val defaultLogo: LogoResource = builtInLogos.find { it.id == "prism" } ?: builtInLogos[1]
 
-    // ==================== STYLES ====================
-
     val styles: List<WatermarkStyle> = listOf(
         WatermarkStyle(
             id = "standard",
             nameResId = R.string.style_standard,
-            horizontalLayoutResId = R.layout.watermark_horizontal_standard,
-            verticalLayoutResId = R.layout.watermark_vertical_standard,
+            layoutResId = R.layout.watermark_standard,
             descriptionResId = R.string.style_standard_desc
         ),
         WatermarkStyle(
             id = "minimal",
             nameResId = R.string.style_minimal,
-            horizontalLayoutResId = R.layout.watermark_horizontal_minimal,
-            verticalLayoutResId = R.layout.watermark_vertical_minimal,
+            layoutResId = R.layout.watermark_minimal,
             descriptionResId = R.string.style_minimal_desc
         ),
         WatermarkStyle(
             id = "classic",
             nameResId = R.string.style_classic,
-            horizontalLayoutResId = R.layout.watermark_horizontal_classic,
-            verticalLayoutResId = R.layout.watermark_vertical_classic,
+            layoutResId = R.layout.watermark_classic,
             descriptionResId = R.string.style_classic_desc
         )
     )
 
     val defaultStyle: WatermarkStyle = styles.find { it.id == "classic" } ?: styles.first()
-
-    // ==================== HELPER FUNCTIONS ====================
 
     fun findFontById(id: String): FontResource? = fonts.find { it.id == id }
     fun findLogoById(id: String): LogoResource? = builtInLogos.find { it.id == id }
