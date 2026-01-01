@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/watermarkBG"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp"
+    android:background="@color/watermark_bg_light">
+
+    <ImageView
+        android:id="@+id/watermarkLogo"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:contentDescription="@string/cd_watermark_logo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@drawable/logo_prism" />
+
+    <TextView
+        android:id="@+id/watermarkText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="@color/watermark_text_dark"
+        android:maxLines="1"
+        android:ellipsize="end"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/watermarkLogo"
+        tools:text="PRISM" />
+
+    <TextView
+        android:id="@+id/watermarkEXIFDataText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:textSize="12sp"
+        android:textColor="@color/watermark_text_dark"
+        android:alpha="0.7"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:visibility="visible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/watermarkText"
+        tools:text="ISO 100 • 26mm • f/1.8 • 1/60s" />
+
+    <TextView
+        android:id="@+id/watermarkDeviceText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:textSize="12sp"
+        android:textColor="@color/watermark_text_dark"
+        android:alpha="0.7"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:visibility="visible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/watermarkEXIFDataText"
+        tools:text="Pixel 7 Pro" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

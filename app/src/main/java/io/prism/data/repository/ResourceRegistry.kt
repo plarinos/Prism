@@ -49,6 +49,11 @@ object ResourceRegistry {
             id = "jetbrains_mono_bold",
             nameResId = R.string.font_jetbrains_bold,
             fontResId = R.font.jetbrains_mono_bold
+        ),
+        FontResource(
+            id = "pacifico_regular",
+            nameResId = R.string.pacifico_regular,
+            fontResId = R.font.pacifico_regular
         )
     )
 
@@ -84,7 +89,19 @@ object ResourceRegistry {
             nameResId = R.string.style_classic,
             layoutResId = R.layout.watermark_classic,
             descriptionResId = R.string.style_classic_desc
-        )
+        ),
+        WatermarkStyle(
+            id = "classic_v2",
+            nameResId = R.string.style_classic_v2,
+            layoutResId = R.layout.watermark_classic_v2,
+            descriptionResId = R.string.style_classic_v2_desc
+        ),
+        WatermarkStyle(
+            id = "center",
+            nameResId = R.string.style_center,
+            layoutResId = R.layout.watermark_center,
+            descriptionResId = R.string.style_center_desc
+        ),
     )
 
     val defaultStyle: WatermarkStyle = styles.find { it.id == "classic" } ?: styles.first()

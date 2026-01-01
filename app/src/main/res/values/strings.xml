@@ -51,6 +51,7 @@
     <string name="font_playfair_bold">Playfair Bold</string>
     <string name="font_oswald">Oswald</string>
     <string name="badscript_regular">BadScript</string>
+    <string name="pacifico_regular">Pacifico Regular</string>
     <string name="font_jetbrains">JetBrains Mono</string>
     <string name="font_jetbrains_bold">JetBrains Bold</string>
 
@@ -82,8 +83,12 @@
     <!-- Styles -->
     <string name="style_standard">Standard</string>
     <string name="style_standard_desc">Logo with divider and full info</string>
+    <string name="style_classic_v2">Classic V2</string>
+    <string name="style_classic_v2_desc">Text on the left, the rest on the right</string>
     <string name="style_minimal">Minimal</string>
     <string name="style_minimal_desc">Clean and simple</string>
+    <string name="style_center">Center</string>
+    <string name="style_center_desc">Center, one below the other</string>
     <string name="style_classic">Classic</string>
     <string name="style_classic_desc">Text on left, logo on right</string>
     <string name="add_template">Add Template</string>
